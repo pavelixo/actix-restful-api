@@ -3,3 +3,15 @@ debug/
 Cargo.lock
 **/*.rs.bk
 *.pdb
+
+# Jet brains
+.DS_Store
+.idea
+
+# Visual Studio Code #
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
