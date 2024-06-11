@@ -1,0 +1,9 @@
+services:
+  actix:
+    build:
+      context: api/
+      dockerfile: Dockerfile
+    environment:
+      - RUST_LOG=info
+    ports:
+      - "8080:8080"
