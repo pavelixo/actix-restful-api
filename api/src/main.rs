@@ -1,22 +1,30 @@
-use std::io::Result;
-use actix_web::{App, HttpServer};
-
 mod controllers;
 mod serializers;
-use controllers::{post_controller, healthcheck_controller};
+use std::io::Result;
+use actix_web::{
+    web::ServiceConfig, 
+    App, 
+    HttpServer
+};
+use controllers::{
+    post_controller, 
+    healthcheck_controller
+};
 
-const HOST: &'static str = "0.0.0.0";
-const PORT: u16 = 8080;
+// Server's binding address
+const HOST: &'static str = "0.0.0.0:8080"; 
 
 #[actix_web::main]
 async fn main() -> Result<()> {
-    HttpServer::new(|| {
-            App::new()
-                .configure(post_controller::config)
-                .configure(healthcheck_controller::config)
-        }
-    )
-    .bind((HOST, PORT))?
-    .run()
-    .await
+    // Define the app factory closure
+    let app = || App::new().configure(config);
+
+    // Create and run the HTTP server
+    HttpServer::new(app).bind(HOST)?.run().await
+}
+
+// Main configuration controllers function 
+fn config(cfg: &mut ServiceConfig) {
+    post_controller::config(cfg);
+    healthcheck_controller::config(cfg);
 }
