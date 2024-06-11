@@ -1,14 +1,15 @@
-use actix_web::{HttpResponse, Responder, web::{ServiceConfig, resource, get}};
+use actix_web::{
+    HttpResponse, 
+    Responder, 
+    web::{
+        ServiceConfig, 
+        resource, 
+        get
+    }
+};
 use crate::serializers::healthcheck_serializer::Healthcheck;
 
-pub fn config(cfg: &mut ServiceConfig) {
-    cfg.service(
-        resource("/health").route(
-            get().to(health_check)
-        )
-    );
-}
-
+// Controller
 async fn health_check() -> impl Responder {
     let response = Healthcheck {
         message: String::from("Ok"),
@@ -16,4 +17,13 @@ async fn health_check() -> impl Responder {
     };
 
     HttpResponse::Ok().json(response)
+}
+
+// Service configuration
+pub fn config(cfg: &mut ServiceConfig) {
+    cfg.service(
+        resource("/health").route(
+            get().to(health_check)
+        )
+    );
 }
